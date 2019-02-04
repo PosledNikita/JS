@@ -1,3 +1,5 @@
+import FunctionalJs from '../FunctionalJs.js';
+
 describe('Testing a avgOfEvenNumbers function', function() {
   
     let array = [1, 2, 4, 7, 6, 9 , 1, 5];

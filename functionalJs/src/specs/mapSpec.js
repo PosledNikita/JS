@@ -1,3 +1,5 @@
+import FunctionalJs from '../FunctionalJs.js';
+
 describe('Testing a map function', function() {
   
     function doubleOddIndexNumbersCallback(current, index) {

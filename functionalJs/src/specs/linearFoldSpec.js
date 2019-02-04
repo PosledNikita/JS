@@ -1,3 +1,5 @@
+import FunctionalJs from '../FunctionalJs.js';
+
 describe('Testing a linear fold function', function() {
   
     function sumCallback(prev, current) {

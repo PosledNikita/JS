@@ -1,3 +1,5 @@
+import FunctionalJs from '../FunctionalJs.js';
+
 describe('Testing curry function', function() {
     describe('Making a curried function out of a sum of 3 numbers function', function() {
         function sumOf3Numbers(a, b, c) {

@@ -1,3 +1,5 @@
+import FunctionalJs from '../FunctionalJs.js';
+
 describe('Testing a first function', function() {
   
     function firstEvenCallback(current) {

@@ -187,3 +187,5 @@ FunctionalJs.memoize = (fn) => {
     memoized.savedResultsCount = 0;
     return memoized;
 }
+
+export default FunctionalJs;

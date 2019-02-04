@@ -1,3 +1,5 @@
+import FunctionalJs from '../FunctionalJs.js';
+
 describe('Calling a sumOfRandomNumbers function', function() {
   
     let result;

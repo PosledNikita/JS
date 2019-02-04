@@ -1,3 +1,5 @@
+import FunctionalJs from '../FunctionalJs.js';
+
 describe('Testing lazy function', function() {
 
     describe('Making a factorial of 10 function as lazy', function() {

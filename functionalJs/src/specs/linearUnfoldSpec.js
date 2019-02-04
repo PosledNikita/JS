@@ -1,3 +1,5 @@
+import FunctionalJs from '../FunctionalJs.js';
+
 describe('Testing a linear unfold function', function() {
     function speadNumberToUnits(value) {
         if(value === 0) {

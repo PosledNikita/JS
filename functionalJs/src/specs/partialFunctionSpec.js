@@ -1,3 +1,5 @@
+import FunctionalJs from '../FunctionalJs.js';
+
 describe('Testing partialApplication function', function() {
     describe('Making a doubleNumber function as partial out of multiply function', function() {
   

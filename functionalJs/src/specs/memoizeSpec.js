@@ -1,3 +1,5 @@
+import FunctionalJs from '../FunctionalJs.js';
+
 describe('Testing memoize function', function() {
 
     describe('Making a exponentiation of 3 and another number as memoized', function() {

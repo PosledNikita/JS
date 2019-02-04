@@ -1,3 +1,5 @@
+import FunctionalJs from '../FunctionalJs.js';
+
 describe('Testing a filter function', function() {
   
     function isEvenCallback(value) {
