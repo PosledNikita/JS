@@ -90,11 +90,13 @@ FunctionalJs.linearUnfold = (callback, initialValue) => {
 
 FunctionalJs.map = (array, callback) => {
     let resultArray = [];
+    let index = 0;
+    
     if(typeof callback !== 'function') {
         throw new TypeError('Given callback argument is not a function');
     }
 
-    function mapRecursive (index = 0) {
+    function mapRecursive () {
         if(index < array.length) {
             resultArray.push(callback(array[index], index, array));
             return mapRecursive(++index);
@@ -108,12 +110,13 @@ FunctionalJs.map = (array, callback) => {
 
 FunctionalJs.filter = (array, callback) => {
     let resultArray = [];
+    let index = 0;
 
     if(typeof callback !== 'function') {
         throw new TypeError('Given callback argument is not a function');
     }
 
-    function filterRecursive(index = 0) {
+    function filterRecursive() {
         if(index < array.length) {
             if(callback(array[index], index, array)) {
                 resultArray.push(array[index]);
@@ -160,6 +163,7 @@ FunctionalJs.sumOfRandomNumbers = function () {
 }
 
 FunctionalJs.first = (array, condition) => {
+    let index = 0;
     if(!(array instanceof Array)) {
         return undefined;
     }
@@ -168,7 +172,7 @@ FunctionalJs.first = (array, condition) => {
         throw new TypeError('Given condition argument is not a function');
     }
 
-    function firstRecursive(index = 0) {
+    function firstRecursive() {
         if(index < array.length) {
             if(condition(array[index], index, array)) {
                 return array[index];
