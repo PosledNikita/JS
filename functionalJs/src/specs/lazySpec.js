@@ -11,13 +11,13 @@ describe('Testing lazy function', function() {
         let factorial10 = FunctionalJs.lazy(factorial, 10);
         let result;
         
-        it('Then I get a function', function() { 
-          expect(typeof factorial10).toBe('function');
+        it('Then I get a object', function() { 
+          expect(typeof factorial10).toBe('object');
         });
       
-        describe('When I execute function once again', function() {
+        describe('When I get a value from object', function() {
           it('Then I get a correct answer', function() {
-            result = factorial10();
+            result = factorial10.Value;
             expect(result).toBe(3628800);
           });
         });     

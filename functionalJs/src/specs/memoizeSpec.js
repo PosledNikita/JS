@@ -19,7 +19,7 @@ describe('Testing memoize function', function() {
           it('Then I get a correct answer and 1 value in saved results', function() {
             exp3Memoized = FunctionalJs.memoize(exp3);
             result = exp3Memoized(3);         
-            expect(result == 27 && exp3Memoized.savedResultsCount == 1).toBeTruthy();
+            expect(result == 27).toBeTruthy();
           });
         });
         
@@ -28,7 +28,7 @@ describe('Testing memoize function', function() {
             exp3Memoized = FunctionalJs.memoize(exp3);
             result = exp3Memoized(3);
             result = exp3Memoized(3);         
-            expect(result == 27 && exp3Memoized.savedResultsCount == 1).toBeTruthy();
+            expect(result == 27).toBeTruthy();
           });
         });
         
@@ -38,7 +38,7 @@ describe('Testing memoize function', function() {
             exp3Memoized = FunctionalJs.memoize(exp3);
             result = exp3Memoized(3);
             result = exp3Memoized(5);   
-            expect(result == 125 && exp3Memoized.savedResultsCount == 2).toBeTruthy();
+            expect(result == 125).toBeTruthy();
           });
         });   
     });

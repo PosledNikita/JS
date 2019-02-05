@@ -15,7 +15,6 @@ describe('Testing curry function', function() {
       
         describe('When I call function one time', function() {
           it("Then I get a function", function() {
-                curried = FunctionalJs.curry(sumOf3Numbers); 
                 result = curried(1);
                 expect(typeof result).toBe('function');
             });
@@ -23,7 +22,6 @@ describe('Testing curry function', function() {
       
         describe('When I call a function two times', function() {
           it("Then I get a function", function() { 
-                curried = FunctionalJs.curry(sumOf3Numbers);
                 result = curried(1)(2);
                 expect(typeof result).toBe('function');
           });
@@ -31,7 +29,6 @@ describe('Testing curry function', function() {
       
         describe('When I call a function three times', function() {
           it("Then I get a correct answer", function() { 
-                curried = FunctionalJs.curry(sumOf3Numbers);
                 result = curried(1)(2)(3);
                 expect(result).toBe(6);
           });
@@ -39,7 +36,6 @@ describe('Testing curry function', function() {
 
         describe('When I call a function one time with three arguments', function() {
             it("Then I get a correct answer", function() { 
-                curried = FunctionalJs.curry(sumOf3Numbers);
                 result = curried(1, 2, 3);
                 expect(result).toBe(6);
             });

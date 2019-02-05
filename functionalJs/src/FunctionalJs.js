@@ -6,21 +6,24 @@ FunctionalJs.partialFunction = function(func, ...args) {
 
 FunctionalJs.curry = (f) => {
         const func = f;
-        const ARGS_LENGTH = f.length;
-        let args = [];
-    
+        const ARGS_LENGTH = f.length;    
+
         if(ARGS_LENGTH === 0){
             return func();
         }
-    
-        return function diveInto(...x) {
-            args.push(...x);
-            if(args.length === ARGS_LENGTH){
-                return func(...args);
+
+        return function curryProxy(...args) {
+            let funcArgs = [];
+            funcArgs.push(...args);
+            if(funcArgs.length >= ARGS_LENGTH){
+                return func(...funcArgs);
             }
-            return diveInto;
-        }
-  
+            return function diveInto(...x) {
+                funcArgs.push(...x);
+                return curryProxy(...funcArgs);
+            }
+                
+        }  
 }
 
 FunctionalJs.linearFold = (array, callback, initialValue) => {
@@ -45,11 +48,17 @@ FunctionalJs.linearFold = (array, callback, initialValue) => {
         index++;
     }
 
-    for(; index < array.length; index++) {
+     function linearFoldRecursive () {
         previousValue = callback(previousValue, array[index], index, array);
+        if(index !== array.length - 1) {
+            linearFoldRecursive(++index);
+        }
+        return previousValue;
+
     }
 
-    return previousValue;   
+    return linearFoldRecursive(index);
+ 
 }
 
 FunctionalJs.linearUnfold = (callback, initialValue) => {
@@ -60,43 +69,41 @@ FunctionalJs.linearUnfold = (callback, initialValue) => {
         throw new TypeError('Given callback argument is not a function');
     }
 
-    while(true) {
+    function linearUnfoldRecursive() {
         let [nextElement, nextState] = callback(currentState);
 
-        if(isFalsy(nextElement)) {
-            break;
+        if(!nextElement) {
+            return resultSequence;
         }
         resultSequence.push(nextElement);
 
-        if(isFalsy(nextState)) {
-            break;
+        if(!nextState) {
+            return resultSequence;
         }
         currentState = nextState;
+        return linearUnfoldRecursive();
     }
 
-    return resultSequence;
-
-    function isFalsy(value) {
-        if(value === undefined || value === null || !value || value === '' || value === ``) {
-            return true;
-        }
-        return false;
-    }
+    return linearUnfoldRecursive();
     
 }
 
 FunctionalJs.map = (array, callback) => {
     let resultArray = [];
-
     if(typeof callback !== 'function') {
         throw new TypeError('Given callback argument is not a function');
     }
 
-    for(let index = 0; index < array.length; index++) {
-        resultArray.push(callback(array[index], index, array));
+    function mapRecursive (index = 0) {
+        if(index < array.length) {
+            resultArray.push(callback(array[index], index, array));
+            return mapRecursive(++index);
+        }
+
+        return resultArray;
     }
 
-    return resultArray;   
+    return mapRecursive();
 }
 
 FunctionalJs.filter = (array, callback) => {
@@ -106,15 +113,19 @@ FunctionalJs.filter = (array, callback) => {
         throw new TypeError('Given callback argument is not a function');
     }
 
-    for(let index = 0; index < array.length; index++) {
-        let operationResult = callback(array[index], index, array);
-
-        if(operationResult) {
-            resultArray.push(array[index]);
+    function filterRecursive(index = 0) {
+        if(index < array.length) {
+            if(callback(array[index], index, array)) {
+                resultArray.push(array[index]);
+            }
+            return filterRecursive(++index);
         }
+
+        return resultArray;
     }
 
-    return resultArray;   
+    return filterRecursive();
+
 }
 
 FunctionalJs.avgOfEvenNumbers = function (array) {
@@ -130,11 +141,15 @@ FunctionalJs.avgOfEvenNumbers = function (array) {
 
 FunctionalJs.sumOfRandomNumbers = function () {
     let array = [];
-    let i;
 
-    for(i = 0; i < 10; i++){
-        array.push(generateRandomNumber(0, 10));
+    function pushRandomNumbers(count) {
+        if(count > 0) {
+            array.push(generateRandomNumber(0,10));
+            pushRandomNumbers(--count);
+        }
     }
+
+    pushRandomNumbers(10);
 
     return this.linearFold(array, (sum, number) => sum + number);
 
@@ -145,7 +160,6 @@ FunctionalJs.sumOfRandomNumbers = function () {
 }
 
 FunctionalJs.first = (array, condition) => {
-    let validValue;
     if(!(array instanceof Array)) {
         return undefined;
     }
@@ -154,20 +168,36 @@ FunctionalJs.first = (array, condition) => {
         throw new TypeError('Given condition argument is not a function');
     }
 
-    for(let i = 0; i < array.length; i++) {
-        if(condition(array[i], i, array)) {
-            validValue = array[i];
-            break;
+    function firstRecursive(index = 0) {
+        if(index < array.length) {
+            if(condition(array[index], index, array)) {
+                return array[index];
+            }
+            return firstRecursive(++index);
         }
+
+        return undefined;
     }
 
-    return validValue;
+    return firstRecursive()
 }
 
 FunctionalJs.lazy = (func, ...parameters) => {
-    return () => {
-        return func.call(null, ...parameters);
+
+    let lazyfunc = () => {
+        let savedResult;
+        let lazyObject = {
+            get Value() {
+                if(savedResult === undefined) {
+                    savedResult = func(...parameters);
+                }
+                return savedResult;
+            }
+        }
+        return lazyObject;
     }
+
+    return lazyfunc();
 }
 
 FunctionalJs.memoize = (fn) => {
@@ -180,11 +210,9 @@ FunctionalJs.memoize = (fn) => {
       else {
         let result = fn(argument);
         savedResults.set(argument, result);
-        memoized.savedResultsCount++;
         return result;
       }
     }
-    memoized.savedResultsCount = 0;
     return memoized;
 }
 
