@@ -1,58 +1,44 @@
 import FunctionalJs from '../FunctionalJs.js';
 
 describe('Testing memoize function', function() {
+  describe('Making a exponentiation of 3 and another number as memoized', function() {
+    let spiedObject;
+    let spiedFactorial;
+    let result;
 
-    describe('Making a exponentiation of 3 and another number as memoized', function() {
-  
-        function exp3(n) {
-            return n ** 3;
-        }
+    function refreshSpyObjectAndFunctions() {
+      spiedObject = {
+        factorial: FunctionalJs.memoize(function (n) {
+          return (n != 1) ? n * spiedObject.factorial(n - 1) : 1;
+        })
+      };
 
-        let spiedObject;
-        let spiedExp3;
-        let exp3Memoized = FunctionalJs.memoize(exp3);
-        let result;
+      spyOn(spiedObject, 'factorial').and.callThrough();
+      spiedFactorial = spiedObject.factorial;
+    }
 
-        function refreshSpyObjectAndFunctions() {
-          spiedObject = {
-            exp3Prop: (argument) => exp3(argument)
-            }
-          spyOn(spiedObject, 'exp3Prop').and.callThrough();
-          spiedExp3 = spiedObject.exp3Prop.bind(spiedObject);
-          exp3Memoized = FunctionalJs.memoize(spiedExp3);
-        }
-        
-        it('Then I get a function', function() { 
-          expect(typeof exp3Memoized).toBe('function');
-        });
-      
-        describe('When I execute function one time with 3 as argument', function() {
-          beforeEach(refreshSpyObjectAndFunctions);
-          it('Then I get a correct answer and 1 execution of function', function() {
-            result = exp3Memoized(3);         
-            expect(result).toBe(27);
-            expect(spiedObject.exp3Prop.calls.count()).toBe(1); 
-          });
-        });
-        
-        describe('When I execute function two times with 3 as argument', function() {
-          beforeEach(refreshSpyObjectAndFunctions);
-          it('Then I get a correct answer and 1 execution of function', function() {
-            result = exp3Memoized(3);
-            result = exp3Memoized(3); 
-            expect(result).toBe(27);
-            expect(spiedObject.exp3Prop.calls.count()).toBe(1);        
-          });
-        });
-        
-        describe('When I execute function two times with 3 and 5 as arguments', function() {
-          beforeEach(refreshSpyObjectAndFunctions);
-          it('Then I get a correct answer and 2 executions of function', function() {   
-            result = exp3Memoized(3);
-            result = exp3Memoized(5);   
-            expect(result).toBe(125);
-            expect(spiedObject.exp3Prop.calls.count()).toBe(2); 
-          });
-        });   
+    beforeEach(refreshSpyObjectAndFunctions);
+    it('Then I get a function', function() { 
+      expect(typeof spiedFactorial).toBe('function');
     });
+  
+    describe('When I execute function one time with 10 as argument', function() {
+      beforeEach(refreshSpyObjectAndFunctions);
+      it('Then I get a correct answer and 10 executions of function', function() {
+        result = spiedFactorial(10);         
+        expect(result).toBe(3628800);
+        expect(spiedObject.factorial.calls.count()).toBe(10); 
+      });
+    });
+    
+    describe('When I execute function two times with 10 and 3 as arguments', function() {
+      beforeEach(refreshSpyObjectAndFunctions);
+      it('Then I get a correct answers and 11 executions of function instead of 15', function() {
+        result = spiedFactorial(10);
+        result = spiedFactorial(5); 
+        expect(result).toBe(120);
+        expect(spiedObject.factorial.calls.count()).toBe(11);        
+      });
+    });
+  });
 });
