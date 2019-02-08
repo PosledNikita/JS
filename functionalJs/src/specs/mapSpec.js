@@ -1,8 +1,8 @@
 import FunctionalJs from '../FunctionalJs.js';
 
 describe('Testing a map function', function() {
-  function doubleOddIndexNumbersCallback(current, index) {
-    if(index % 2 === 0) {
+  function doubleOddNumbersCallback(current) {
+    if(current % 2 === 0) {
       return current;
     }
     return current * 2;
@@ -13,14 +13,14 @@ describe('Testing a map function', function() {
 
   describe('Calling map with array of numbers, and callback function', function () {
     it("Then I get a correct answer", function() { 
-      result = FunctionalJs.map(array, doubleOddIndexNumbersCallback);
-      expect(result).toEqual(array.map(doubleOddIndexNumbersCallback));
+      result = FunctionalJs.map(array, doubleOddNumbersCallback);
+      expect(result).toEqual(array.map(doubleOddNumbersCallback));
     });
   });
 
   describe('Calling map with zero-length array', function () {
     it("Then I get an empty array", function() { 
-      result = FunctionalJs.map([], doubleOddIndexNumbersCallback);
+      result = FunctionalJs.map([], doubleOddNumbersCallback);
       expect(result).toEqual([]);
     });
   });
