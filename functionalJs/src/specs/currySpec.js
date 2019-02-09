@@ -40,6 +40,20 @@ describe('Testing curry function', function() {
                 expect(result).toBe(6);
             });
         });
+
+        describe('When I make a chain of three function executions ', function() {
+            let first;
+            let second;
+            let fourth;
+            it("Then I get a function", function() { 
+                first = FunctionalJs.curry(sumOf3Numbers);
+                second = first(1);
+                first = second(1);
+                fourth = second(1);
+                expect(typeof fourth).toBe('function');
+            });
+        });
+
     });
 
     describe('Making a curried function out of zero arguments length function', function() {  
@@ -47,8 +61,8 @@ describe('Testing curry function', function() {
             return 'someValue';
         }
         let curried = FunctionalJs.curry(zeroArgumentsFunction);
-        it("Then I get a result of function", function() { 
-            expect(curried).toBe(zeroArgumentsFunction());
+        it("Then I get a function", function() { 
+            expect(typeof curried).toBe('function');
         });    
     });
 });
