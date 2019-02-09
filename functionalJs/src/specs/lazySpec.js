@@ -41,6 +41,30 @@ describe('Testing lazy function', function() {
         expect(result).toBe(3628800);
         expect(spiedObject.factorialProp.calls.count() === 1);
       });
-    });     
+    });
+    
+    describe('Making lazy a function that returns undefined', function() {
+      function returnsUndefined() {
+        return undefined;
+      }
+      let spiedObject;
+      let spiedFunction;
+      let functionLazy;
+      let result;  
+  
+      beforeEach(()=>{
+        spiedObject = {
+          funcProp: () => returnsUndefined()
+        }
+        spyOn(spiedObject, 'funcProp').and.callThrough();
+        spiedFunction = spiedObject.funcProp.bind(spiedObject);
+        functionLazy = FunctionalJs.lazy(spiedFunction);
+      });
+      it('Then I get undefined  and one call of function', function() {
+        result = functionLazy();
+        expect(result).toEqual(undefined);
+        expect(spiedObject.funcProp.calls.count() === 1);
+      });
+    });
   });
 });
