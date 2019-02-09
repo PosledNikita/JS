@@ -33,4 +33,12 @@ describe('Testing a linear fold function', function() {
       expect(() => FunctionalJs.linearFold(array, {})).toThrow(new TypeError('Given callback argument is not a function'));
     });
   });
-});  
+
+  describe('Calling linear fold with array of numbers and undefined in it', function () {
+    it("Then I get a correct answer", function() { 
+      let array = [1, 4, 6, undefined, 10, 2];
+      result = FunctionalJs.linearFold(array, sumCallback);
+      expect(result).toEqual(array.reduce(sumCallback));
+    });
+  });
+});
