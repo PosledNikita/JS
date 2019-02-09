@@ -8,7 +8,7 @@ describe('Testing a first function', function() {
     return false;
   }
 
-  let array = [1, 4, 6, 10, 2, 9 , 1, 5];
+  let array = [1, undefined, 4, 6, 10, 2, 9, 1, 5];
   let result;
 
   describe('Calling first with array of numbers, and callback function', function () {

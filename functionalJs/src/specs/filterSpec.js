@@ -8,9 +8,9 @@ describe('Testing a filter function', function() {
     return false;
   }
   
-  let array = [1, 4, 6, 10, 2, 9 , 1, 5];
+  let array = [1, 4, 6, undefined, 10, 2, 9, 1, 5];
   let result;
-  
+
   describe('Calling filter with array of numbers, and callback function', function () {
     it("Then I get a correct answer", function() { 
       result = FunctionalJs.filter(array, isEvenCallback);

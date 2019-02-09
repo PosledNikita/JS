@@ -34,7 +34,7 @@ describe('Testing memoize function', function() {
     describe('When I execute function two times with 10 and 3 as arguments', function() {
       beforeEach(refreshSpyObjectAndFunctions);
       it('Then I get a correct answers and 11 executions of function instead of 15', function() {
-        result = spiedFactorial(10);
+        spiedFactorial(10);
         result = spiedFactorial(5); 
         expect(result).toBe(120);
         expect(spiedObject.factorial.calls.count()).toBe(11);        

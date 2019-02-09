@@ -8,7 +8,7 @@ describe('Testing a map function', function() {
     return current * 2;
   }
 
-  let array = [1, 4, 6, 10, 2, 9 , 1, 5];
+  let array = [1, 4, undefined, 6, 10, 2, 9, 1, 5];
   let result;
 
   describe('Calling map with array of numbers, and callback function', function () {
