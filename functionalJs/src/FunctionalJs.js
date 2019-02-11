@@ -69,10 +69,10 @@ FunctionalJs.map = (array, callback) => {
     }
 
     function mapRecursive ([firstValue, ...array], callback) {
-        if (firstValue !== undefined || array.length > 0) {
-            return [callback(firstValue), ...mapRecursive(array, callback)];
+        if (firstValue === undefined && array.length === 0) {
+            return [];
         }
-        return [];
+        return [callback(firstValue), ...mapRecursive(array, callback)];
     }
 
     return mapRecursive(array, callback);
@@ -84,13 +84,13 @@ FunctionalJs.filter = (array, callback) => {
     }
 
     function filterRecursive([firstValue, ...array], callback) {
-        if (firstValue !== undefined || array.length > 0) {
-            if (callback(firstValue)) {
-                return [firstValue, ...filterRecursive(array, callback)];
-            }
-            return [...filterRecursive(array, callback)];
+        if (firstValue === undefined && array.length === 0) {
+            return [];
         }
-        return [];
+        if (callback(firstValue)) {
+            return [firstValue, ...filterRecursive(array, callback)];
+        }
+        return [...filterRecursive(array, callback)];
     }
     
     return filterRecursive(array, callback);
@@ -124,13 +124,10 @@ FunctionalJs.first = (array, condition) => {
         throw new TypeError('Given condition argument is not a function');
     }
 
-    function firstRecursive(array, condition) {
-        if (array.length > 0) {
-            if (condition(array[0])) {
-                return array[0];
-            }
-            const [, ...newArray] = array;
-            return firstRecursive(newArray, condition);
+    function firstRecursive([firstValue, ...array], condition) {
+        if (firstValue !== undefined || array.length > 0) {
+            const result = condition(firstValue) ? () =>  firstValue : () =>  firstRecursive(array, condition);
+            return result();
         }
         return undefined;
     }
