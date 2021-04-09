@@ -4,6 +4,8 @@ FunctionalJs.partialFunction = function (func, ...args) {
     return (...additionalArgs) => func.call(null, ...args, ...additionalArgs);
 };
 
+// File test update
+
 FunctionalJs.curry = func => {
     const argsLength = func.length;
 
