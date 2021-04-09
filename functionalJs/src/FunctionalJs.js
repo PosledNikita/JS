@@ -1,4 +1,4 @@
-const FunctionalJs = {};
+export const FunctionalJs = {};
 
 FunctionalJs.partialFunction = function (func, ...args) {
     return (...additionalArgs) => func.call(null, ...args, ...additionalArgs);
